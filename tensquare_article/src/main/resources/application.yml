@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: tensquare-article
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.213.131:3306/tensquare_article?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+server:
+  port: 9004 # 服务访问端口号
