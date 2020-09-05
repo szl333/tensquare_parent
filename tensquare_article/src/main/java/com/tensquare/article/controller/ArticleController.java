@@ -140,7 +140,40 @@ public class ArticleController {
                 .setMessage("查询成功")
                 .setData(pageResult);
     }
+    /**
+     * 文章分页
+     * POST /article/search/{page}/{size}
+     */
+    @PostMapping("/search")
+    public Result findByCondition (
+            @RequestBody Map<String,Object> map
+    ) {
+       List<Article> data = articleService.findByCondition(map);
+        return new Result()
+                .setCode(StatusCode.OK)
+                .setFlag(true)
+                .setMessage("查询成功")
+                .setData(data);
+    }
 
+    /**
+     * PUT /
+     *{
+     *   "code": 0,
+     *   "flag": true,
+     *   "message": "string"
+     * }
+     * 点赞 /article/thumbup/{articleId}
+     * @return
+     */
+    @PutMapping("/thumbup/{articleId}")
+    public Result updateThumbup(@PathVariable String articleId){
+        articleService.updateThumbup(articleId);
+        return new Result()
+                .setCode(StatusCode.OK)
+                .setFlag(true)
+                .setMessage("更新点赞成功");
+    }
 }
 
 

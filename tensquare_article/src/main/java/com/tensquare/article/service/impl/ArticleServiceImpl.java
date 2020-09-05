@@ -38,4 +38,16 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> impleme
         // 返回
         return pageData;
     }
+
+    @Override
+    public List<Article> findByCondition(Map<String, Object> map) {
+        EntityWrapper<Article> entityWrapper = new EntityWrapper<>();
+        map.forEach((k,v)->entityWrapper.eq(k!=null,k,v));
+        return articleDao.selectList(entityWrapper);
+    }
+
+    @Override
+    public void updateThumbup(String articleId) {
+        articleDao.updateThumbup(articleId);
+    }
 }

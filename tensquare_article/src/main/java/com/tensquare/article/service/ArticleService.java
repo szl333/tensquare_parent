@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.tensquare.article.pojo.Article;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +21,19 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     Page<Article> findByPage(Map<String, Object> map, Integer page, Integer size);
+
+    /**
+     * 根据条件查询
+     * @param map
+     * @return
+     */
+    List<Article> findByCondition(Map<String, Object> map);
+
+    /**
+     * 点赞
+     * @param articleId
+     */
+    void updateThumbup(String articleId);
 }
 
 

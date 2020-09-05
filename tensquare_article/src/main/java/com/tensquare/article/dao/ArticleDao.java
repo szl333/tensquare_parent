@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ArticleDao extends BaseMapper<Article> {
+    void updateThumbup(String articleId);
 }
