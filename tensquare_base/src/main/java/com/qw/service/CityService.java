@@ -2,6 +2,7 @@ package com.qw.service;
 
 
 import com.entity.Result;
+import com.qw.pojo.City;
 
 /**
  * @Author Arkay
@@ -10,4 +11,8 @@ import com.entity.Result;
  */
 public interface CityService {
     Result findAll();
+
+    Result addCity(City city);
+
+    Result updateCity(String id, City city);
 }

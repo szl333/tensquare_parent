@@ -1,8 +1,10 @@
 package com.qw.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.entity.Result;
 import com.entity.StatusCode;
 import com.qw.dao.CityDao;
+import com.qw.pojo.City;
 import com.qw.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,19 @@ public class CityServiceImpl implements CityService {
         result.setFlag(true);
         result.setMessage("success");
         return result;
+    }
+
+    @Override
+    public Result addCity(City city) {
+        cityDao.insert(city);
+        return new Result(true, StatusCode.OK, "success");
+    }
+
+    @Override
+    public Result updateCity(String id, City city) {
+        QueryWrapper<City> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id", "id");
+        cityDao.update(city, queryWrapper);
+        return new Result(true, StatusCode.OK, "success");
     }
 }
