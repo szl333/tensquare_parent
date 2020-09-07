@@ -32,6 +32,7 @@ public class CityController {
     @PutMapping("/{cityId}")
     public Result updateCity(@PathVariable("cityId") String id,
                              @RequestBody City city) {
+        System.out.println(id);
         return cityService.updateCity(id, city);
     }
 }

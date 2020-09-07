@@ -1,5 +1,6 @@
 package com.qw.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.entity.Result;
 import com.entity.StatusCode;
@@ -37,9 +38,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public Result updateCity(String id, City city) {
-        QueryWrapper<City> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", "id");
-        cityDao.update(city, queryWrapper);
+        cityDao.updateById(city);
         return new Result(true, StatusCode.OK, "success");
     }
 }
