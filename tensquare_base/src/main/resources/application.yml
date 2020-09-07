@@ -17,3 +17,10 @@ mybatis-plus:
   type-aliases-package: com.qw.pojo
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#pageHelper配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+

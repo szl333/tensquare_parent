@@ -15,4 +15,12 @@ public interface CityService {
     Result addCity(City city);
 
     Result updateCity(String id, City city);
+
+    Result deleteById(String id);
+
+    Result findById(String id);
+
+    Result search(City city);
+
+    Result searchByPage(Integer page, Integer size, City city);
 }
