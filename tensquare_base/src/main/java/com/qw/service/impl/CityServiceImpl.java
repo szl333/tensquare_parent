@@ -1,7 +1,6 @@
 package com.qw.service.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.entity.Result;
 import com.entity.StatusCode;
 import com.qw.dao.CityDao;
