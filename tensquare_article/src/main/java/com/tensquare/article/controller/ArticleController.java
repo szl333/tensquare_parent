@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.entity.PageResult;
 import com.entity.Result;
 import com.entity.StatusCode;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import com.tensquare.article.pojo.Article;
 import com.tensquare.article.service.ArticleService;
 import com.util.IdWorker;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author: ligangan
@@ -29,7 +31,6 @@ public class ArticleController {
     private ArticleService articleService;
     @Autowired
     private IdWorker idWorker;
-
     /**
      * GET /article
      * 获取文章的全部列表
@@ -45,7 +46,6 @@ public class ArticleController {
                 .setFlag(true)
                 .setMessage("查询成功");
     }
-
     /**
      * 根据文章id查询具体文章信息
      * GET /article/{articleId}
@@ -61,7 +61,6 @@ public class ArticleController {
                 .setFlag(true)
                 .setData(article);
     }
-
     /**
      * POST /article
      * 文章新增
@@ -82,7 +81,6 @@ public class ArticleController {
                 .setFlag(true)
                 .setMessage("新增成功");
     }
-
     /**
      * PUT /article/{articleId}
      * 文章修改
@@ -155,7 +153,6 @@ public class ArticleController {
                 .setMessage("查询成功")
                 .setData(data);
     }
-
     /**
      * PUT /
      *{
@@ -173,6 +170,91 @@ public class ArticleController {
                 .setCode(StatusCode.OK)
                 .setFlag(true)
                 .setMessage("更新点赞成功");
+    }
+    /**
+     * POST /article/channel/{channelId}/{page}/{size}
+     * 根据频道ID获取文章列表
+     */
+    @PostMapping("/channel/{channelId}/{page}/{size}")
+    public Result channelArticle (
+            @PathVariable String channelId,
+            @PathVariable Integer page,
+            @PathVariable Integer size
+    ) {
+        if (Objects.isNull(page)){
+            page = 1;
+        }
+        if (Objects.isNull(size)){
+            size = 1;
+        }
+        Page<Article> page1 = new Page<>(page,size);
+        Page<Article> page2 = articleService.selectPage(page1,
+                new EntityWrapper<Article>().eq(channelId != "", "channelid", channelId)
+        );
+        PageResult<Article> pageResult = new PageResult<>();
+        pageResult.setTotal(page2.getTotal());
+        pageResult.setRows(page2.getRecords());
+        return new Result()
+                .setData(pageResult)
+                .setCode(StatusCode.OK)
+                .setMessage("成功")
+                .setFlag(true);
+    }
+    /**
+     *  POST /article/column/{columnId}/{page}/{size}
+     *  根据专栏ID获取文章列表
+     * */
+    @GetMapping("/column/{columnId}/{page}/{size}")
+    public Result columnArticle (
+            @PathVariable("columnId") String columnId,
+            @PathVariable("page") Integer page,
+            @PathVariable("size") Integer size
+    ) {
+        Page<Article> page1 = new Page<>(page,size);
+        Page<Article> page2 = articleService.selectPage(page1, new EntityWrapper<Article>()
+                .eq(columnId != "", "columnid", columnId)
+        );
+        PageResult<Article> pageResult = new PageResult<>();
+        pageResult.setTotal(page2.getTotal());
+        pageResult.setRows(page2.getRecords());
+        return new Result()
+                .setData(pageResult)
+                .setCode(StatusCode.OK)
+                .setMessage("成功")
+                .setFlag(true);
+    }
+    /**
+     * 1 审核通过
+     * 0 审核不通过
+     * PUT /article/examine/{articleId} 文章审核
+     */
+    @PutMapping("/examine/{articleId}")
+    public Result examineArticle (@PathVariable String articleId) {
+        Article article = new Article();
+        article.setState("1");
+        article.setId(articleId);
+        boolean result = articleService.updateById(article);
+        return new Result()
+                .setMessage("文章审核成功")
+                .setCode(StatusCode.OK)
+                .setFlag(true);
+    }
+    /**
+     * GET /article/top
+     * 头条文章 1 是头条 ,0不是
+     * @return
+     */
+    @GetMapping("/top")
+    public Result topArticle () {
+        EntityWrapper<Article> entityWrapper = 
+                new EntityWrapper<>();
+        entityWrapper.eq("istop",1);
+        List<Article> articles = articleService.selectList(entityWrapper);
+        return new Result()
+                .setFlag(true)
+                .setMessage("查询成功")
+                .setCode(StatusCode.OK)
+                .setData(articles);
     }
 }
 
