@@ -1,7 +1,7 @@
 package com.spit.dao;
 
-import com.spit.pojo.TbSpit;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.spit.pojo.TbSpit;
 
 /**
  * <p>
