@@ -10,7 +10,7 @@ spring:
     password: 15139923838li
     type: com.alibaba.druid.pool.DruidDataSource
 mybatis-plus:
-  type-aliases-package: com.tensquare.article.pojo
+  type-aliases-package: com.tensquare.article.com.tensquare.qa.pojo
   global-config:
     id-type: 1 # 0数据库id自增 1用户输入id
     db-column-underline: false # 实体字段是否转换为下划线格式

@@ -19,8 +19,8 @@ server:
 
 #mybatisPlus配置
 mybatis-plus:
-  mapper-locations: classPath:dao/*.xml
-  type-aliases-package: com.qw.pojo
+  mapper-locations: classPath:com.tensquare.qa.dao/*.xml
+  type-aliases-package: com.qw.com.tensquare.qa.pojo
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
