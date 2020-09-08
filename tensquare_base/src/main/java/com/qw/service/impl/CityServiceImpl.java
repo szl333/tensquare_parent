@@ -16,6 +16,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,9 @@ import java.util.List;
 public class CityServiceImpl implements CityService {
     @Autowired
     private CityDao cityDao;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Override
     @Cacheable(key = "#root.method.name")
@@ -59,10 +63,10 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(key = "#id", sync = true)
     public City findById(String id) {
-        City city = cityDao.selectById(id);
-        return city;
+            City city = cityDao.selectById(id);
+            return city;
     }
 
     @Override
