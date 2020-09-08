@@ -7,6 +7,12 @@ spring:
       username: root
       password: 15139923838li
 
+#redis配置
+  redis:
+    port: 6379
+    host: 121.199.3.37
+    database: 0
+
 #服务端口号
 server:
   port: 9005

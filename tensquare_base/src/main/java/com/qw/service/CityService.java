@@ -2,7 +2,10 @@ package com.qw.service;
 
 
 import com.entity.Result;
+import com.github.pagehelper.PageInfo;
 import com.qw.pojo.City;
+
+import java.util.List;
 
 /**
  * @Author Arkay
@@ -10,17 +13,17 @@ import com.qw.pojo.City;
  * @Version 1.0
  */
 public interface CityService {
-    Result findAll();
+    List<City> findAll();
 
-    Result addCity(City city);
+    City addCity(City city);
 
-    Result updateCity(String id, City city);
+    City updateCity(String id, City city);
 
-    Result deleteById(String id);
+    void deleteById(String id);
 
-    Result findById(String id);
+    City findById(String id);
 
-    Result search(City city);
+    List<City> search(City city);
 
-    Result searchByPage(Integer page, Integer size, City city);
+    PageInfo searchByPage(Integer page, Integer size, City city);
 }

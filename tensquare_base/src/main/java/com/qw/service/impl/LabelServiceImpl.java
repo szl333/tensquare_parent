@@ -10,6 +10,10 @@ import com.qw.dao.LabelDao;
 import com.qw.pojo.Label;
 import com.qw.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,65 +24,73 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
+@CacheConfig(cacheNames = "label")
 public class LabelServiceImpl implements LabelService {
     @Autowired
     private LabelDao labelDao;
 
     @Override
-    public Result findAll() {
-        return new Result(true, StatusCode.OK, "success", labelDao.selectList(null));
+    @Cacheable(key = "#root.method.name")
+    public List<Label> findAll() {
+        return labelDao.selectList(null);
     }
 
     @Override
-    public Result add(Label label) {
+    @Cacheable(key = "#label.id")
+    public Label add(Label label) {
         labelDao.insert(label);
-        return new Result(true, StatusCode.OK, "success");
+        return label;
     }
 
     @Override
-    public Result toplist() {
+    @Cacheable(key = "#root.method.name")
+    public List<Label> toplist() {
         QueryWrapper<Label> labelQueryWrapper = new QueryWrapper<>();
         labelQueryWrapper.eq("recommend", "1");
-        return new Result(true, StatusCode.OK, "success", labelDao.selectList(labelQueryWrapper));
+        return labelDao.selectList(labelQueryWrapper);
     }
 
     @Override
-    public Result list() {
+    @Cacheable(key = "#root.method.name")
+    public List<Label> list() {
         QueryWrapper<Label> labelQueryWrapper = new QueryWrapper<>();
         labelQueryWrapper.eq("state", "1");
-        return new Result(true, StatusCode.OK, "success", labelDao.selectList(labelQueryWrapper));
+        return labelDao.selectList(labelQueryWrapper);
     }
 
     @Override
-    public Result findById(String id) {
-        return new Result(true, StatusCode.OK, "success", labelDao.selectById(id));
+    @Cacheable(key = "#id")
+    public Label findById(String id) {
+        return labelDao.selectById(id);
     }
 
     @Override
-    public Result updateById(String id, Label label) {
+    @CachePut(key = "#id")
+    public Label updateById(String id, Label label) {
         labelDao.updateById(label);
-        return new Result(true, StatusCode.OK, "success");
+        return label;
     }
 
     @Override
-    public Result deleteById(String id) {
+    @CacheEvict(key = "#id")
+    public void deleteById(String id) {
         labelDao.deleteById(id);
-        return new Result(true, StatusCode.OK, "success");
     }
 
     @Override
-    public Result searchByPage(Integer page, Integer size, Label label) {
+    @Cacheable
+    public PageInfo searchByPage(Integer page, Integer size, Label label) {
         PageHelper.startPage(page, size);
         List<Label> labels = getLabels(label);
         PageInfo<Label> labelPageInfo = new PageInfo<>(labels);
-        PageResult<Label> labelPageResult = new PageResult<>(labelPageInfo.getTotal(), labelPageInfo.getList());
-        return new Result(true, StatusCode.OK, "success", labelPageResult);
+        return labelPageInfo;
     }
 
     @Override
-    public Result search(Label label) {
+    @Cacheable
+    public List<Label> search(Label label) {
         List<Label> labels = getLabels(label);
-        return new Result(true, StatusCode.OK, "success", labels);
+        return labels;
     }
 
     private List<Label> getLabels(Label label) {

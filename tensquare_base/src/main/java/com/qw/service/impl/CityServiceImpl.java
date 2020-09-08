@@ -12,6 +12,10 @@ import com.qw.dao.CityDao;
 import com.qw.pojo.City;
 import com.qw.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,60 +26,60 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
+@CacheConfig(cacheNames = "city")
 public class CityServiceImpl implements CityService {
     @Autowired
     private CityDao cityDao;
 
     @Override
-    public Result findAll() {
-        Result result = new Result();
-        result.setData(cityDao.selectList(null));
-        result.setCode(StatusCode.OK);
-        result.setFlag(true);
-        result.setMessage("success");
-        return result;
+    @Cacheable(key = "#root.method.name")
+    public List<City> findAll() {
+        List<City> cities = cityDao.selectList(null);
+        return cities;
     }
 
     @Override
-    public Result addCity(City city) {
+    @Cacheable(key = "#city.getId()")
+    public City addCity(City city) {
         cityDao.insert(city);
-        return new Result(true, StatusCode.OK, "success");
+        return city;
     }
 
     @Override
-    public Result updateCity(String id, City city) {
+    @CachePut(key = "#id")
+    public City updateCity(String id, City city) {
         cityDao.updateById(city);
-        return new Result(true, StatusCode.OK, "success");
+        return city;
     }
 
     @Override
-    public Result deleteById(String id) {
+    @CacheEvict(key = "#id")
+    public void deleteById(String id) {
         cityDao.deleteById(id);
-        return new Result(true, StatusCode.OK, "success");
     }
 
     @Override
-    public Result findById(String id) {
+    @Cacheable(key = "#id")
+    public City findById(String id) {
         City city = cityDao.selectById(id);
-        return new Result(true, StatusCode.OK, "success", city);
+        return city;
     }
 
     @Override
-    public Result search(City city) {
+    @Cacheable
+    public List<City> search(City city) {
         List<City> cities = getCities(city);
-        return new Result(true, StatusCode.OK, "success", cities);
+        return cities;
     }
 
     @Override
-    public Result searchByPage(Integer page, Integer size, City city) {
+    @Cacheable
+    public PageInfo searchByPage(Integer page, Integer size, City city) {
         PageHelper.startPage(page, size);
         List<City> cities = getCities(city);
         PageInfo<City> pageInfo = new PageInfo<>(cities);
-        PageResult<City> cityPageResult = new PageResult<>();
-        cityPageResult.setTotal(pageInfo.getTotal());
-        cityPageResult.setRows(pageInfo.getList());
 
-        return new Result(true, StatusCode.OK, "success", cityPageResult);
+        return pageInfo;
     }
 
     private List<City> getCities(City city) {

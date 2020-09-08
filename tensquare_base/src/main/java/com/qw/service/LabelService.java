@@ -1,7 +1,10 @@
 package com.qw.service;
 
 import com.entity.Result;
+import com.github.pagehelper.PageInfo;
 import com.qw.pojo.Label;
+
+import java.util.List;
 
 /**
  * @Author Arkay
@@ -9,21 +12,21 @@ import com.qw.pojo.Label;
  * @Version 1.0
  */
 public interface LabelService {
-    Result findAll();
+    List<Label> findAll();
 
-    Result add(Label label);
+    Label add(Label label);
 
-    Result toplist();
+    List<Label> toplist();
 
-    Result list();
+    List<Label> list();
 
-    Result findById(String id);
+    Label findById(String id);
 
-    Result updateById(String id, Label label);
+    Label updateById(String id, Label label);
 
-    Result deleteById(String id);
+    void deleteById(String id);
 
-    Result searchByPage(Integer page, Integer size, Label label);
+    PageInfo searchByPage(Integer page, Integer size, Label label);
 
-    Result search(Label label);
+    List<Label> search(Label label);
 }

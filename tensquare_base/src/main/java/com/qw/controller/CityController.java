@@ -1,7 +1,10 @@
 package com.qw.controller;
 
+import com.entity.PageResult;
 import com.entity.Result;
+import com.entity.StatusCode;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.qw.pojo.City;
 import com.qw.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,7 @@ public class CityController {
      */
     @GetMapping
     public Result findAll() {
-        return cityService.findAll();
+        return new Result(true, StatusCode.OK, "success", cityService.findAll());
     }
 
     /**
@@ -36,7 +39,8 @@ public class CityController {
      */
     @PostMapping
     public Result addCity(@RequestBody City city) {
-        return cityService.addCity(city);
+        cityService.addCity(city);
+        return new Result(true, StatusCode.OK, "success");
     }
 
     /**
@@ -48,7 +52,8 @@ public class CityController {
     @PutMapping("/{cityId}")
     public Result updateCity(@PathVariable("cityId") String id,
                              @RequestBody City city) {
-        return cityService.updateCity(id, city);
+        cityService.updateCity(id, city);
+        return new Result(true, StatusCode.OK, "success");
     }
 
     /**
@@ -58,7 +63,8 @@ public class CityController {
      */
     @DeleteMapping("/{cityId}")
     public Result deleteCity(@PathVariable("cityId") String id) {
-        return cityService.deleteById(id);
+        cityService.deleteById(id);
+        return new Result(true, StatusCode.OK, "success");
     }
 
     /**
@@ -66,7 +72,7 @@ public class CityController {
      */
     @GetMapping("/{cityId}")
     public Result findById(@PathVariable("cityId") String id) {
-        return cityService.findById(id);
+        return new Result(true, StatusCode.OK, "success", cityService.findById(id));
     }
 
     /**
@@ -74,7 +80,7 @@ public class CityController {
      */
     @PostMapping("/search")
     public Result search(@RequestBody City city) {
-        return cityService.search(city);
+        return  new Result(true, StatusCode.OK, "success", cityService.search(city));
     }
 
     /**
@@ -84,6 +90,8 @@ public class CityController {
     public Result searchByPage(@PathVariable("page") Integer page,
                                @PathVariable("size") Integer size,
                                @RequestBody City city) {
-        return cityService.searchByPage(page, size, city);
+        PageInfo pageInfo = cityService.searchByPage(page, size, city);
+        PageResult<City> pageResult = new PageResult<City>(pageInfo.getTotal(), pageInfo.getList());
+        return new Result(true, StatusCode.OK, "success", pageResult);
     }
 }

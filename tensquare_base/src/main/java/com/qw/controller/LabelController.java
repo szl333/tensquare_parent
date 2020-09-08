@@ -1,6 +1,9 @@
 package com.qw.controller;
 
+import com.entity.PageResult;
 import com.entity.Result;
+import com.entity.StatusCode;
+import com.github.pagehelper.PageInfo;
 import com.qw.pojo.Label;
 import com.qw.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,7 @@ public class LabelController {
      */
     @GetMapping
     public Result findAll() {
-        return labelService.findAll();
+        return new Result(true, StatusCode.OK, "success", labelService.findAll());
     }
 
     /**
@@ -33,7 +36,8 @@ public class LabelController {
      */
     @PostMapping
     public Result addLabel(@RequestBody Label label) {
-        return labelService.add(label);
+        labelService.add(label);
+        return new Result(true, StatusCode.OK, "success");
     }
 
     /**
@@ -42,7 +46,7 @@ public class LabelController {
      */
     @GetMapping("/toplist")
     public Result toplist() {
-        return labelService.toplist();
+        return new Result(true, StatusCode.OK, "success", labelService.toplist());
     }
 
     /**
@@ -51,7 +55,7 @@ public class LabelController {
      */
     @GetMapping("/list")
     public Result list() {
-        return labelService.list();
+        return new Result(true, StatusCode.OK, "success", labelService.list());
     }
 
     /**
@@ -61,7 +65,7 @@ public class LabelController {
      */
     @GetMapping("/{labelId}")
     public Result findById(@PathVariable("labelId") String id) {
-        return labelService.findById(id);
+        return new Result(true, StatusCode.OK, "success", labelService.findById(id));
     }
 
     /**
@@ -73,7 +77,8 @@ public class LabelController {
     @PutMapping("/{labelId}")
     public Result updateById(@PathVariable("labelId") String id,
                              @RequestBody Label label) {
-        return labelService.updateById(id, label);
+        labelService.updateById(id, label);
+        return new Result(true, StatusCode.OK, "success");
     }
 
     /**
@@ -83,7 +88,8 @@ public class LabelController {
      */
     @DeleteMapping("/{labelId}")
     public Result deleteById(@PathVariable("labelId") String id) {
-        return labelService.deleteById(id);
+        labelService.deleteById(id);
+        return new Result(true, StatusCode.OK, "success");
     }
 
     /**
@@ -97,7 +103,9 @@ public class LabelController {
     public Result searchByPage(@PathVariable("page") Integer page,
                                @PathVariable("size") Integer size,
                                @RequestBody Label label) {
-        return labelService.searchByPage(page, size, label);
+        PageInfo pageInfo = labelService.searchByPage(page, size, label);
+        PageResult<Label> labelPageResult = new PageResult<>(pageInfo.getTotal(), pageInfo.getList());
+        return new Result(true, StatusCode.OK, "success", labelPageResult);
     }
 
     /**
@@ -107,6 +115,6 @@ public class LabelController {
      */
     @PostMapping("/search")
     public Result search(@RequestBody Label label) {
-        return labelService.search(label);
+        return new Result(true, StatusCode.OK, "success", labelService.search(label));
     }
 }
