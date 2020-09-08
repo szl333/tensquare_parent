@@ -1,6 +1,5 @@
 package com.qw.pojo;
 
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,20 +11,20 @@ import java.io.Serializable;
 
 /**
  * @Author Arkay
- * @Date 2020/9/7 15:51
+ * @Date 2020/9/8 10:31
  * @Version 1.0
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("tb_city")
-public class City implements Serializable {
+@TableName("tb_label")
+public class Label implements Serializable {
     @TableId
     private String id;
+    private String labelname;
+    private String state;
+    private Long count;
+    private String recommend;
+    private String fans;
 
-    @TableField("name")
-    private String name;
-
-    @TableField("ishot")
-    private String ishot;
 }
