@@ -63,9 +63,12 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    @Cacheable(key = "#id", sync = true)
+    @Cacheable(key = "#id")
     public City findById(String id) {
             City city = cityDao.selectById(id);
+            if (city == null) {
+                return null;
+            }
             return city;
     }
 

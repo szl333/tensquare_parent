@@ -15,7 +15,7 @@ spring:
 
 #服务端口号
 server:
-  port: 9005
+  port: 9004
 
 #mybatisPlus配置
 mybatis-plus:
