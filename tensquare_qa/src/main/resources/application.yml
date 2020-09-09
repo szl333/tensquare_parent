@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: tensquare-qa
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.94.166.191:3306/tensquare_qa?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 15139923838li
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

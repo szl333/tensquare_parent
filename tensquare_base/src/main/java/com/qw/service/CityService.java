@@ -4,6 +4,7 @@ package com.qw.service;
 import com.entity.Result;
 import com.github.pagehelper.PageInfo;
 import com.qw.pojo.City;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public interface CityService {
 
     City updateCity(String id, City city);
 
+    @Transactional
     void deleteById(String id);
 
     City findById(String id);
@@ -26,4 +28,6 @@ public interface CityService {
     List<City> search(City city);
 
     PageInfo searchByPage(Integer page, Integer size, City city);
+
+    void ttlDelete(String id);
 }

@@ -50,8 +50,8 @@ public class MybatisPlusGenerator {
         pc.setModuleName("spit");
         pc.setParent("com");
         //手动设置包名
-        pc.setEntity("pojo");
-        pc.setMapper("dao");
+        pc.setEntity("com.tensquare.qa.pojo");
+        pc.setMapper("com.tensquare.qa.dao");
         pc.setXml("mapper");
         mpg.setPackageInfo(pc);
 

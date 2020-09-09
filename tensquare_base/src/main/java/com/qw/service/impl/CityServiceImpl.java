@@ -10,7 +10,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.qw.dao.CityDao;
 import com.qw.pojo.City;
+import com.qw.rabbitmq.DeleteCitySender;
 import com.qw.service.CityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -29,11 +32,16 @@ import java.util.List;
 @Service
 @CacheConfig(cacheNames = "city")
 public class CityServiceImpl implements CityService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CityServiceImpl.class);
+
     @Autowired
     private CityDao cityDao;
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private DeleteCitySender deleteCitySender;
 
     @Override
     @Cacheable(key = "#root.method.name")
@@ -87,6 +95,12 @@ public class CityServiceImpl implements CityService {
         PageInfo<City> pageInfo = new PageInfo<>(cities);
 
         return pageInfo;
+    }
+
+    @Override
+    public void ttlDelete(String id) {
+        LOGGER.info("发送延时消息...");
+        deleteCitySender.send(id, "30000");
     }
 
     private List<City> getCities(City city) {

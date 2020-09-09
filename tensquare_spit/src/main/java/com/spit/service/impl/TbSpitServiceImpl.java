@@ -27,4 +27,19 @@ public class TbSpitServiceImpl extends ServiceImpl<TbSpitMapper, TbSpit> impleme
     public List<TbSpit> findAll() {
         return tbSpitMapper.selectList(null);
     }
+
+    @Override
+    public TbSpit findById(Integer id) {
+        return tbSpitMapper.selectById(id);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        tbSpitMapper.deleteById(id);
+    }
+
+    @Override
+    public String thumbup(Integer id) {
+        return tbSpitMapper.selectById(id).getThumbup();
+    }
 }

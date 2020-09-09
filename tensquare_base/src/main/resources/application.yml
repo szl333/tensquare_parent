@@ -13,14 +13,26 @@ spring:
     host: 121.199.3.37
     database: 0
 
+#rabbitMQ配置
+  rabbitmq:
+    host: 121.199.3.37
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      direct:
+        default-requeue-rejected: false
+        acknowledge-mode: manual
+      type: simple
+
 #服务端口号
 server:
   port: 9004
 
 #mybatisPlus配置
 mybatis-plus:
-  mapper-locations: classPath:dao/*.xml
-  type-aliases-package: com.qw.pojo
+  mapper-locations: classPath:com.tensquare.qa.dao/*.xml
+  type-aliases-package: com.qw.com.tensquare.qa.pojo
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
