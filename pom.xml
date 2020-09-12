@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>tensquare_common</module>
+        <module>tensquare_article</module>
+        <module>tensquare_base</module>
+        <module>tensquare_qa</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

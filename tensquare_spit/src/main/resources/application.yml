@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.94.166.191:3306/tensquare_spit?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 15139923838li
+    type: com.alibaba.druid.pool.DruidDataSource
+  application:
+    name: tensquare_spit
+
+
+server:
+  port: 8082
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

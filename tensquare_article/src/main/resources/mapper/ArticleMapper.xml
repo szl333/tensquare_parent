@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tensquare.article.com.tensquare.qa.dao.ArticleDao">
+    <update id="updateThumbup" parameterType="string">
+        update tb_article
+        set thumbup = thumbup + 1
+        where id =  #{articleId}
+    </update>
+</mapper>
